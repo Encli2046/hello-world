@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.encli.mapper.StudentMapper">
+
+    <resultMap id="studentResultMap" type="com.encli.model.Student">
+        <id column="ID" property="id" jdbcType="INTEGER"/>
+        <result column="NAME" property="name" jdbcType="VARCHAR"/>
+        <result column="AGE" property="age" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="student_field">
+        id,name,age
+    </sql>
+
+
+    <!--增加,返回主键-->
+    <insert id="addStudent" parameterType="com.encli.model.Student" >
+        <selectKey keyProperty="id" order="AFTER" resultType="int">
+            SELECT last_insert_id()
+        </selectKey>
+        INSERT INTO student VALUES(NULL,#{name},#{age})
+    </insert>
+
+    <!--删除-->
+    <delete id="deleteStudent" parameterType="int" >
+        DELETE FROM student WHERE id = #{id}
+    </delete>
+
+    <!--修改-->
+    <update id="updateStudent" parameterType="com.encli.model.Student">
+        UPDATE student SET name = #{name}, age = #{age} WHERE id = #{id}
+    </update>
+
+    <!--根据学生ID查询-->
+    <select id="queryStudentById" resultMap="studentResultMap" parameterType="int">
+        SELECT <include refid="student_field"/> FROM student WHERE id = #{id}
+    </select>
+
+    <!--查所有-->
+    <select id="queryAllStudents" resultMap="studentResultMap">
+        SELECT <include refid="student_field"/> FROM student
+    </select>
+
+
+
+
+
+
+
+
+
+
+</mapper>

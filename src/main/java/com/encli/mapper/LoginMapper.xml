@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.encli.mapper.LoginMapper">
+
+    <resultMap id="userResultMap" type="com.encli.model.User">
+        <result column="USERNAME" property="username" jdbcType="VARCHAR"/>
+        <result column="PASSWORD" property="password" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="user_field">
+        username,password
+    </sql>
+
+    <select id="check" parameterType="com.encli.model.User" resultMap="userResultMap">
+        SELECT
+          <include refid="user_field"/>
+        FROM
+          USER
+        WHERE USERNAME = #{username}
+        AND PASSWORD = #{password}
+
+    </select>
+
+
+
+</mapper>
